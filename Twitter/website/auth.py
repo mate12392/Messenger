@@ -15,15 +15,12 @@ def login():
         password = request.form.get('password')
         rem = request.form.get('rem')
 
-        if rem:
-            mate = True
-        else:
-            mate = False
+
         user = User.query.filter_by(email=email).first()
         if user:
             if check_password_hash(user.password, password):
                 flash('Logged in succesfully!', category='success')
-                login_user(user, remember=mate)
+                login_user(user, remember=False)
                 return redirect(url_for('views.home'))
             else:
                 flash('incorrect password. Try again!', category='error')
@@ -31,7 +28,7 @@ def login():
             flash('Email does not exist!', category='error')
 
     return render_template("login.html", user=current_user)
-    print(mate)
+
 
 @auth.route('/logout')
 @login_required

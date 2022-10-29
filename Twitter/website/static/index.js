@@ -8,20 +8,3 @@ function deleteNote(lista) {
     window.location.href = s;
   });
 }
-
-function on() {
-  document.getElementById("overlay").style.display = "block";
-}
-
-function off() {
-  document.getElementById("overlay").style.display = "none";
-}
-
-function Alert() {
-  alert("Nothing to delet!");
-}
-
-function searchRedirect(s) {
-  redirect = "/note/" + s[0];
-  window.location.href = redirect;
-}
