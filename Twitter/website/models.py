@@ -15,6 +15,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     username = db.Column(db.String(150))
+    first_name = db.Column(db.String(150))
+    last_name = db.Column(db.String(150))
     tweet = db.relationship('Tweet')
     follow = db.relationship('Follow')
     comment = db.relationship('Comment')
@@ -34,4 +36,4 @@ class Comment(db.Model):
 class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     liker_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    liked_tweet_id = db.Column(db.Integer, db.ForeignKey('tweer.id'))
+    liked_tweet_id = db.Column(db.Integer, db.ForeignKey('tweet.id'))
