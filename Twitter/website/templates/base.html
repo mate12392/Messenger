@@ -14,22 +14,24 @@
     href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     crossorigin="anonymous"
     />
+    <script src="https://kit.fontawesome.com/530c22b4dc.js" crossorigin="anonymous"></script>
+
 <title>{% block title %}Home{% endblock %}</title>
 </head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg text-black-50 bg-gradient-primary">
+<body class="bg-white">
+    <nav class="navbar navbar-expand-lg text-danger bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav">
                 {% if user.is_authenticated %}
-                <a class="nav-item nav-link" id="home" href="/" style="margin:auto">Home</a>
-                <a class="nav-item nav-link" id="logOut" href="/logout" style="margin:auto">Log Out</a>
-                <a class="nav-item nav-link" id="search" href="/search" style="margin:auto">Search</a>
+                <a class="nav-item nav-link fa-solid fa-house-user ml-1 mr-1 h2" id="home" href="/" style="margin:auto"></a>
+                <a class="nav-item nav-link fa-solid fa-right-from-bracket ml-1 mr-1 h2" id="logOut" href="/logout" style="margin:auto"></a>
+                <a class="nav-item nav-link fa-solid fa-user h2 ml-1 mr-1" id="profile" href="/profile" style="margin:auto"></a>
                 {% else %}
-                <a class="nav-item nav-link" id="login" href="/login">Login</a>
-                <a class="nav-item nav-link" id="signUp" href="/signup">Sign up</a>
+                <a class="nav-item nav-link fa-solid fa-right-to-bracket ml-1 mr-1 h2" id="login" href="/login"></a>
+                <a class="nav-item nav-link fa-solid fa-user-plus ml-1 mr-1 h2" id="signUp" href="/signup"></a>
                 {% endif %}
             </div>
         </div>
@@ -44,7 +46,7 @@
             <button type="button" class="close" data-dismiss="alert">
                 <span aria-hidden="true">&times;</span>
             </button>
-        </div>
+        </div class="container">
         {% else %}
         <div class="alert alert-success alert-dismissable fade show" role="alert">
             {{message}}
@@ -57,7 +59,7 @@
     {%endif%}
     {%endwith%}
 
-    <div class="container">
+    <div>
     {% block content%}
     {% endblock%}
     </div>

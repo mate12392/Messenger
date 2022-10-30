@@ -8,3 +8,4 @@ function deleteNote(lista) {
     window.location.href = s;
   });
 }
+
