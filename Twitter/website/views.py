@@ -1,26 +1,15 @@
+from email import message_from_string
 from flask import Blueprint, render_template, request
 from flask import flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
 from .models import Friend, Message, User
 from . import db
+from .functions import getFriends, getMessages
+from time import sleep
 #import json
 #import os
 
 views = Blueprint('views', __name__)
-
-def getFriends(recipient_id):
-    sender_is_friend = Friend.query.filter_by(follower_user_id = current_user.id).all()
-    sender_list = []
-    for i in sender_is_friend:
-        sender_list.append(i.__dict__['followed_user_id'])
-    recipient_is_friend = Friend.query.filter_by(followed_user_id = recipient_id).all()
-    recipient_list = []
-    for i in recipient_is_friend:
-        recipient_list.append(i.__dict__['followed_user_id'])
-    if recipient_id in sender_list and current_user.id in recipient_list:
-        return True
-    else:
-        return False
 
 @views.route('/', methods=['GET', 'POST'])
 @login_required
@@ -47,23 +36,24 @@ def messenger(usr_id):
             new_message = Message(data = message, sender_id = current_user.id, reciever_id =  usr_id)
             db.session.add(new_message)
             db.session.commit()
-
-    """if request.method == 'POST':
-            message = request.form.get('message')
-            if message:
-                """
+            print()
     
-    rec_Name = User.query.filter_by(id=usr_id).first().__dict__['last_name'] + " " + User.query.filter_by(id=usr_id).first().__dict__['first_name']
+    rec_Name = User.query.filter_by(id=usr_id).first().__dict__['last_name'].capitalize() + " " + User.query.filter_by(id=usr_id).first().__dict__['first_name'].capitalize()
     rec_name = User.query.filter_by(id=usr_id).first().__dict__['username']
+    rec_user = db.session.query(Message).filter_by(sender_id=usr_id).all()
 
-    return render_template('messenger.html', user=current_user, sender=current_user.id, reciever=int(usr_id), rec_name=rec_name, rec_Names=rec_Name)
+    messages = getMessages(rec_user)
+
+    
+
+    return render_template('messenger.html', user=current_user, sender=current_user.id, reciever=int(usr_id), rec_name=rec_name, rec_Names=rec_Name, messages=messages)
 
 @views.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
     if request.method == 'POST':
         if 'file' not in request.files:
-            flash('No file part')
+            flash('No file selected')
             return render_template("profile.html", user=current_user)
         file = request.files['file']
         if file.filename == '':

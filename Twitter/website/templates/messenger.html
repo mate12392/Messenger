@@ -49,17 +49,17 @@
         </div>
         <div class="row" style="height: 500px">
             <div class="w-100">
-                {% for m in user.tweet %}
-                    {% if m.reciever_id == reciever %}
+                {% for m in messages %}
+                    {% if m[2] == sender %}
                     <div class="right">
-                        <li class="list-group-item border-0 child">{{ m.data }}</li>
+                        <li class="list-group-item border-0 child">{{ m[0] }}</li>
                         <img src="/static/images/{{user.username}}.png" width="25px" height="25px" class="rounded-circle child">
                         <br>
                     </div>
-                    {% elif reciever == m.sender_id %}
+                    {% elif reciever == m[2] %}
                     <div class="left">
                         <img src="/static/images/{{rec_name}}.png" width="25px" height="25px" class="rounded-circle child">
-                        <li class="list-group-item border-0 child">{{ m.data }}</li>
+                        <li class="list-group-item border-0 child">{{ m[0] }}</li>
                         <br>
                     </div>
                     {% endif %}

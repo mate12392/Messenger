@@ -10,8 +10,7 @@ function deleteNote(lista) {
 }
 
 function search(ele) {
-    if(event.keyCode == 13) {
-        document.getElementById("mbutton").click();
-    }
+  if(event.keyCode == 13) {
+      document.getElementById("mbutton").click();
+  }
 }
-
