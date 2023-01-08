@@ -38,7 +38,9 @@ def messenger(usr_id):
             db.session.commit()
             print()
     
-    rec_Name = User.query.filter_by(id=usr_id).first().__dict__['last_name'].capitalize() + " " + User.query.filter_by(id=usr_id).first().__dict__['first_name'].capitalize()
+    rec_name = db.session.query(User).filter_by(id=usr_id).first().__dict__['last_name'].capitalize() + " " + db.session.query(User).filter_by(id=usr_id).first().__dict__['first_name'].capitalize()
+
+    #rec_Name = User.query.filter_by(id=usr_id).first().__dict__['last_name'].capitalize() + " " + User.query.filter_by(id=usr_id).first().__dict__['first_name'].capitalize()
     rec_name = User.query.filter_by(id=usr_id).first().__dict__['username']
     rec_user = db.session.query(Message).filter_by(sender_id=usr_id).all()
 
