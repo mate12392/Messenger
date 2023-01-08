@@ -1,0 +1,26 @@
+{% extends "base.html"%}
+{% block title %}Friends{% endblock %}
+
+
+
+{% block content%}
+
+<script>
+    function searchUser(buttonID) {
+        if(event.keyCode == 13) {
+            document.getElementById(buttonID).click();
+        }
+    }
+</script>
+
+<div class="container-fluid">
+
+    <form method="POST">
+        <br><br>
+        <textarea name="search" id="search" cols="180" rows="2" class="form-control" placeholder="Serach for users" onkeydown="searchUser('sbutton')"></textarea>
+        <button id="sbutton" name="sbutton" type="submit" hidden></button>
+    </form>
+
+</div>
+
+{% endblock %}

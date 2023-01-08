@@ -21,59 +21,102 @@
         margin-right: auto;
         text-align: left;
     }
+
+    .noshow {
+        all: unset;
+        cursor: pointer;
+    }
+
+    .rheight {
+        min-height: 70vh;
+        max-height: 70vh;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    html {
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .list-group-item {
+        font-size: 18px;
+    }
+
+    .mmwidth {
+        min-width: 35vh;
+        max-width: 100vh;
+    }
+
 </style>
 
-<div class="container-fluid d-flex">
+
+<div class="container-fluid d-flex" >
 
     <form method="post">
-        <div class="container d-flex ml-2  border-right min-vh-100" style="width:300px">
-            <div class="row h-100">
+        <div class="container-fluid ml-1 border-right min-vh-100 mmwidth">
+            <div class="h-100">
                 <div class="child">
-                    <h1 class="ml-2 mr-3 mt-3">Chats</h1>
+                    <h2 class="ml-2 mr-3">Chats</h2>
                 </div>
-                <div class=" ml-5 mt-3 child">
-                    <button class="btn" type="submit"><h1 class="ml-5 mt-3 fa fa-edit"></h1></button>
+                <div class="child ml-5">
+                    <button class="btn" type="submit"><h2 class="ml-5 fa fa-edit"></h2></button>
                 </div>
             </div>
+        </form>
+        {% for i in friends %}
+        <form method="post">
+        <div class="" >
+                <button id="{{i[2]}}" name="{{i[2]}}" value="{{i[2]}}" type="submit" class="noshow">
+                <img onclick="gotoUser('{{i[2]}}')" src="/static/images/{{i[1]}}.png" width="25px" height="25px" class="rounded-circle child mr-3 ml-2">
+                <a onclick="gotoUser('{{i[2]}}')" class="child" id="user" name="user" value="{{i[2]}}"><br>{{i[0]}}</a><br>
+                <textarea name="user" id="user" hidden>{{i[2]}}</textarea>
+                </button>
+                <br>
         </div>
-    </form>
+        </form>
+        {%endfor%}
+        </div>
+
 
     <div class="container flex-fill ml-5">
         <div class="row mt-3">
             <div class="mr-3">
-                <img class="rounded-circle" width="50px" height="50px" src="/static/images/{{rec_name}}.png" alt="anyad">
+                <img class="rounded-circle child" width="40px" height="40px" src="/static/images/{{rec_name}}.png" alt="anyad">
+                <p class="ml-3 mt-3 text-primary child">{{rec_Names}}</p>
             </div>
-            <div>
-                <p class="mt-3 text-primary">{{rec_Names}}</p>
-            </div>
+            
         </div>
-        <div class="row" style="height: 500px">
-            <div class="w-100">
+        <div id="reload" >
+        <div  class="row overflow-auto rheight h-auto" >
+            <div class="w-100" id="here" hx-get="/t/{{reciever}}" hx-swap="innerHTML" hx-trigger="every 5s" hx-swap-oob="true">
                 {% for m in messages %}
                     {% if m[2] == sender %}
                     <div class="right">
-                        <li class="list-group-item border-0 child">{{ m[0] }}</li>
-                        <img src="/static/images/{{user.username}}.png" width="25px" height="25px" class="rounded-circle child">
-                        <br>
+                        <li class="list-group-item border-0 child">{{ m[0] }}<br></li>
+                        <img src="/static/images/{{pic}}.png" width="30px" height="30px" class="rounded-circle child ml-2">
+                        <br><br>
                     </div>
                     {% elif reciever == m[2] %}
                     <div class="left">
-                        <img src="/static/images/{{rec_name}}.png" width="25px" height="25px" class="rounded-circle child">
+                        <img src="/static/images/{{rec_name}}.png" width="30px" height="30px" class="rounded-circle child mr-2">
                         <li class="list-group-item border-0 child">{{ m[0] }}</li>
-                        <br>
+                        <br><br>
                     </div>
                     {% endif %}
                 {% endfor %}
             </div>
         </div>
+    </div>
         <div class="row mt-1">
             <form method="POST">
                 <div class="form-group green-border-focus">
-                    <textarea class="form-control" name="message" id="message" cols="180" rows="2" placeholder="Message" onkeydown="search()"></textarea>
+                    <textarea class="form-control" name="message" id="message" cols="180" rows="2" placeholder="Message" onkeydown="search('mbutton')"></textarea>
                     <button id="mbutton" name="mbutton" type="submit" hidden></button>
                 </div>
             </form>
         </div>
+        
     </div>
 </div>
 {% endblock%}

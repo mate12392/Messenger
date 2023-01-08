@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
 class Friend(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     follower_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    followed_user_id = db.Column(db.Integer, unique=True)
+    followed_user_id = db.Column(db.Integer)
 
 class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)

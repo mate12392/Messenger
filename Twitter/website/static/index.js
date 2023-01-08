@@ -9,8 +9,12 @@ function deleteNote(lista) {
   });
 }
 
-function search(ele) {
+function search(buttonID) {
   if(event.keyCode == 13) {
-      document.getElementById("mbutton").click();
+      document.getElementById(buttonID).click();
   }
+}
+
+function gotoUser(buttonID) {
+  document.getElementById(buttonID).click();
 }
