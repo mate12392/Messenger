@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
+    name = db.Column(db.String(301))
     message = db.relationship('Message')
     friend = db.relationship('Friend')
     like = db.relationship('Like')

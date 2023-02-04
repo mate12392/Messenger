@@ -40,8 +40,8 @@ def signup():
     if request.method == 'POST':
         email = request.form.get('email')
         username = request.form.get('username')
-        first_name = request.form.get('first_name')
-        last_name = request.form.get('last_name')
+        first_name = request.form.get('first_name').capitalize()
+        last_name = request.form.get('last_name').capitalize()
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
@@ -59,7 +59,7 @@ def signup():
         elif len(password1) < 8:
             flash('Password must be at least 8 characters', category='error')
         else:
-            new_user = User(email=email, username=username, first_name=first_name, last_name=last_name, password=generate_password_hash(password1, method='sha256'))
+            new_user = User(email=email, username=username, first_name=first_name, last_name=last_name, name=f"{first_name} {last_name}", password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)

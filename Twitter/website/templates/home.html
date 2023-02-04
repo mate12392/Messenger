@@ -16,12 +16,18 @@
         all: unset;
         cursor: pointer;
     }
+
+    .vl {
+        border-right: 1px solid gray;
+        height: 100;
+    }
+
 </style>
 
 <div class="container-fluid">
 
 
-    <div class="container-fluid ml-1 border-right min-vh-100" style="width:300px">
+    <div class="container-fluid ml-1" style="width:300px">
         <form method="post">
         <div class="h-100">
             <div class="child">
@@ -47,7 +53,7 @@
             </form>
             {%endfor%}
         </div>
-        
+        <div class="vl"></div>
         
 
         

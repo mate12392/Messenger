@@ -18,3 +18,12 @@ function search(buttonID) {
 function gotoUser(buttonID) {
   document.getElementById(buttonID).click();
 }
+
+function textAreaAdjust(element) {
+  element.style.height = "1px";
+  if (element.clientHeight <= 40) {
+    if (element.scrollHeight > element.clientHeight) {
+      element.style.height = 50 + "px";
+    }
+  }
+}

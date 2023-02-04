@@ -1,11 +1,15 @@
 {% extends "base.html"%}
-{% block title %}Home{% endblock %}
+{% block title %}Messenger{% endblock %}
 
 
 
 {% block content%}
 
 <style>
+    body {
+        display: flex;
+    }
+
     .child {
         display:inline-block;
     }
@@ -28,14 +32,15 @@
     }
 
     .rheight {
-        min-height: 70vh;
-        max-height: 70vh;
-        display: flex;
-        flex-direction: column-reverse;
+        min-width: 60vh;
+        min-height: 80%;
+        max-height: 80%;
+        overflow: auto;
+        
     }
 
     html {
-        overflow: hidden;
+        
         height: 100%;
     }
 
@@ -44,74 +49,148 @@
     }
 
     .mmwidth {
-        min-width: 35vh;
+        min-width: 37vh;
         max-width: 100vh;
+        min-height: 92%;
+    }
+
+    .bg {
+        font-size: medium;
+        color: white;
+        background-color: #001aff;
+        opacity: 0.65;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .bg1 {
+        margin: 1px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        width: auto;
+    }
+    .bg1:hover {
+        background-color: rgba(201, 185, 183, 0.2);
+    }
+
+    .but {
+        padding: 14px;
+    }
+
+    .but:hover {
+        background-color: rgba(201, 185, 183, 0.2);
+    }
+
+    .fa-magnifying-glass {
+        padding: 4px;
+    }
+
+    .asd {
+        height: 100%;
+    }
+
+    .reload {
+        height: 100%;
+    }
+
+    .scroll {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .under {
+        position: absolute;
+        bottom: 0;
+        min-height: 8%;
     }
 
 </style>
 
 
-<div class="container-fluid d-flex" >
-
+<div class="d-flex asd" >
+<div class="border-right">
     <form method="post">
-        <div class="container-fluid ml-1 border-right min-vh-100 mmwidth">
-            <div class="h-100">
+        <div class="container-fluid mmwidth h-auto">
+            <div class="h-auto">
                 <div class="child">
-                    <h2 class="ml-2 mr-3">Chats</h2>
+                    <h2 class="ml-2 mr-5 mt-2">Chats</h2>
                 </div>
-                <div class="child ml-5">
-                    <button class="btn" type="submit"><h2 class="ml-5 fa fa-edit"></h2></button>
+                <div class="child ">
+                    <button class="btn but" type="submit"><a class="fa-regular fa-magnifying-glass"></a></button>
+                </div>
+                <div class="child">
+                    <button class="btn but fa fa-edit" type="submit"></button>
                 </div>
             </div>
         </form>
         {% for i in friends %}
         <form method="post">
         <div class="" >
-                <button id="{{i[2]}}" name="{{i[2]}}" value="{{i[2]}}" type="submit" class="noshow">
+            {% if i[4] != "" %}
+                <button id="{{i[2]}}" name="{{i[2]}}" value="{{i[2]}}" type="submit" class="noshow" style="width: 100%;">
+                <div class="rounded bg1">
                 <img onclick="gotoUser('{{i[2]}}')" src="/static/images/{{i[1]}}.png" width="25px" height="25px" class="rounded-circle child mr-3 ml-2">
-                <a onclick="gotoUser('{{i[2]}}')" class="child" id="user" name="user" value="{{i[2]}}"><br>{{i[0]}}</a><br>
+                <a onclick="gotoUser('{{i[2]}}')" class="child" id="user" name="user" value="{{i[2]}}">{{i[0]}}</a>
+                <a>{{i[3]}}</a>
+                <a>{{i[4]}}</a>
                 <textarea name="user" id="user" hidden>{{i[2]}}</textarea>
+                </div>
                 </button>
-                <br>
+                
+            {% else %}
+                <button id="{{i[2]}}" name="{{i[2]}}" value="{{i[2]}}" type="submit" class="noshow" style="width: 100%;">
+                <div class="rounded bg1">
+                <img onclick="gotoUser('{{i[2]}}')" src="/static/images/{{i[1]}}.png" width="25px" height="25px" class="rounded-circle child mr-3 ml-2">
+                <a onclick="gotoUser('{{i[2]}}')" class="child" id="user" name="user" value="{{i[2]}}">{{i[0]}}</a>
+                <textarea name="user" id="user" hidden>{{i[2]}}</textarea>
+                </div>
+                </button>
+                
+            {%endif%}
         </div>
         </form>
         {%endfor%}
+        <div class=" under d-flex">
+            <a class="nav-item nav-link" id="profile" href="/profile"><img src="/static/images/{{pic}}.png" width="40px" height="40px" class="rounded-circle">&emsp;{{current_user.last_name}}</a>
         </div>
+    </div>
+</div>
 
 
-    <div class="container flex-fill ml-5">
+    <div class="ml-5 reload container-fluid mr-3">
         <div class="row mt-3">
-            <div class="mr-3">
+            <div class="mr-3 bg2">
                 <img class="rounded-circle child" width="40px" height="40px" src="/static/images/{{rec_name}}.png" alt="anyad">
                 <p class="ml-3 mt-3 text-primary child">{{rec_Names}}</p>
+                <a class="float-right mr-5 mt-3 fa-regular fa-magnifying-glass"></a>
             </div>
             
         </div>
-        <div id="reload" >
-        <div  class="row overflow-auto rheight h-auto" >
-            <div class="w-100" id="here" hx-get="/t/{{reciever}}" hx-swap="innerHTML" hx-trigger="every 5s" hx-swap-oob="true">
+        <div  class="row rheight scroll">
+            <div class="rheight w-100" id="here" hx-get="/t/{{reciever}}" hx-swap="innerHTML" hx-trigger="every 3s" hx-swap-oob="true">
                 {% for m in messages %}
                     {% if m[2] == sender %}
                     <div class="right">
-                        <li class="list-group-item border-0 child">{{ m[0] }}<br></li>
+                        <li class="list-group-item border-0 child bg rounded-pill">{{ m[0] }}<br></li>
                         <img src="/static/images/{{pic}}.png" width="30px" height="30px" class="rounded-circle child ml-2">
                         <br><br>
                     </div>
                     {% elif reciever == m[2] %}
                     <div class="left">
                         <img src="/static/images/{{rec_name}}.png" width="30px" height="30px" class="rounded-circle child mr-2">
-                        <li class="list-group-item border-0 child">{{ m[0] }}</li>
+                        <li class="list-group-item border-0 child bg rounded-pill">{{ m[0] }}</li>
                         <br><br>
                     </div>
                     {% endif %}
                 {% endfor %}
             </div>
         </div>
-    </div>
         <div class="row mt-1">
-            <form method="POST">
+            <form id="form1" method="POST">
                 <div class="form-group green-border-focus">
-                    <textarea class="form-control" name="message" id="message" cols="180" rows="2" placeholder="Message" onkeydown="search('mbutton')"></textarea>
+                    <textarea class="form-control" name="message" id="message" cols="170" rows="2" placeholder="Message" onkeydown="search('mbutton')" autofocus></textarea>
                     <button id="mbutton" name="mbutton" type="submit" hidden></button>
                 </div>
             </form>
@@ -119,4 +198,11 @@
         
     </div>
 </div>
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
 {% endblock%}

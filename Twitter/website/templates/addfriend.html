@@ -13,14 +13,89 @@
     }
 </script>
 
-<div class="container-fluid">
+<style>
+    .right {
+        margin-left:auto;
+        margin-right: 0;
+        text-align: right;
+    }
+
+    .left {
+        margin-left: 0; 
+        margin-right: auto;
+        text-align: left;
+    }
+    .noshow {
+        all: unset;
+        cursor: pointer;
+    }
+
+    .child {
+        display:inline-block;
+    }
+
+</style>
+
+<div class="d-flex">
+<div class="container left border-right min-vh-100">
+
+    <h2>Add Friends</h2>
 
     <form method="POST">
         <br><br>
-        <textarea name="search" id="search" cols="180" rows="2" class="form-control" placeholder="Serach for users" onkeydown="searchUser('sbutton')"></textarea>
+        <textarea name="search" id="search" cols="180" rows="2" class="form-control" placeholder="Search for users" onkeydown="searchUser('sbutton')"></textarea>
         <button id="sbutton" name="sbutton" type="submit" hidden></button>
+        <br>
     </form>
+    <form method="post">
+    {% for i in result %}
+    <button id="{{i[2]}}" name="{{i[2]}}" type="submit" class="noshow">
+    <img src="/static/images/{{i[1]}}.png" width="30px" height="30px" class="rounded-circle child mr-2">
+    <a>{{i[0]}}</a>
+    <textarea name="user" id="user" hidden>{{i[2]}}</textarea>
+    </button>
+    <br><br>
+    {%endfor%}
+    </form>
+</div>
 
+<div class="container border-right min-vh-100">
+
+    <h2>Incoming requests</h2>
+    <br><br>
+    {% for i in req %}
+    
+    <form method="post" class="child">    
+            
+            <img class="rounded-circle child mr-2 ml-3" width="30px" height="30px" src="/static/images/{{i[2]}}.png">
+            <a>{{i[1]}}</a>
+
+    
+            <textarea name="re" id="re" hidden>{{i[0]}}</textarea>
+            <button class="btn btn-primary ml-3 mr-3 child">Accept</button>
+            
+    </form>
+    <form method="post" class="child">
+
+        <textarea name="re_decline" id="re_decline" hidden>{{i[-1]}}</textarea>
+        <button class="btn btn-danger ml-3 child">Decline</button>
+
+    </form>
+    {%endfor%}
+</div>
+
+<div class="container">
+<h2>Your Friends</h2>
+
+{% for i in friends%}
+
+    <img src="/static/images/{{i[1]}}.png" width="30px" height="30px" class="rounded-circle child mr-2">
+    <a>{{i[0]}}</a>
+    <br><br>
+
+{% endfor %}
+
+</div>
 </div>
 
 {% endblock %}

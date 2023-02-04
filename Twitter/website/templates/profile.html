@@ -5,9 +5,13 @@
 
 {% block content%}
 <div class="container">
-Username : {{user.username}}
 <br>
+Username : {{user.username}}
+<br><br>
 Name : {{user.first_name}} {{user.last_name}}
+<br><br>
+Profile picture : <img src="/static/images/{{pic}}.png" width="40px" height="40px" class="rounded-circle child ml-2">
+
 
 <br><br>
 

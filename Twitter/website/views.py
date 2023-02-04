@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, request
 from flask import flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
-from .models import Message, User
+from .models import Message, User, Friend
 from . import db
-from .functions import getFriends, getMessages, getFriendsID
+from .functions import getFriends, getMessages, getFriendsID, getRequests
 from os import path
 
 views = Blueprint('views', __name__)
@@ -23,10 +23,9 @@ def home():
         usr = request.form.get('user')
         if usr:
             usr = int(usr)
-            print(usr)
             return redirect(url_for('views.messenger', usr_id = usr ))
 
-    friends = getFriends()
+    friends = getFriends()[0]
 
     if not path.exists('website/static/images/' + current_user.username + ".png"):
         userpicture = "base"
@@ -55,6 +54,7 @@ def messenger(usr_id):
                 new_message = Message(data = message, sender_id = current_user.id, reciever_id =  usr_id)
                 db.session.add(new_message)
                 db.session.commit()
+                return redirect(url_for('views.messenger', usr_id = usr_id ))
             elif usr:
                 usr = int(usr)
                 return redirect(url_for('views.messenger', usr_id = usr ))
@@ -67,7 +67,7 @@ def messenger(usr_id):
 
         messages = getMessages(rec_user, usr_id)
 
-        friends = getFriends()
+        friends = getFriends()[0]
 
         if not path.exists('website/static/images/' + current_user.username + ".png"):
             userpicture = "base"
@@ -105,14 +105,52 @@ def profile():
 @login_required
 def addFriend():
 
-    if request.method == 'POST':
-        search_string = request.form.get('search')
-        if search_string:
-            result = db.session.query('User')
+    names = getFriends()[1]
 
     if not path.exists('website/static/images/' + current_user.username + ".png"):
         userpicture = "base"
-        return render_template("addfriend.html", pic=userpicture, user=current_user)
     else:
         userpicture = current_user.username
-        return render_template("addfriend.html", pic=userpicture, user=current_user)
+
+    if request.method == 'POST':
+        search_string = request.form.get('search')
+        usr = request.form.get('user')
+        re = request.form.get('re')
+        re_decline = request.form.get('re_decline')
+        if search_string:
+            result = db.session.query(User).filter(User.name.contains(search_string)).all()
+            result1 = []
+            for i in result:
+                uname = i.__dict__['username']
+                if uname not in names and uname != current_user.username:
+                    if not path.exists('website/static/images/' + uname + ".png"):
+                        pname = "base"
+                    else:
+                        pname = uname
+                    result1.append([i.__dict__['name'], pname, i.__dict__['id']])
+            redirect(url_for('views.addFriend'))
+        elif usr:
+            new_request = Friend(follower_user_id = current_user.id, followed_user_id = int(usr))
+            db.session.add(new_request)
+            db.session.commit()
+            result1 = []
+        elif re:
+            new_request = Friend(follower_user_id = current_user.id, followed_user_id = int(re))
+            db.session.add(new_request)
+            db.session.commit()
+            result1 = []
+            redirect(url_for('views.addFriend'))
+        elif re_decline:
+            Friend.query.filter_by(id=int(re_decline)).delete()
+            db.session.commit()
+            result1 = []
+        else:
+            result = []
+    else:
+            result1 = []
+
+    req = getRequests()
+
+    friends = getFriends()[0]
+
+    return render_template("addfriend.html", pic=userpicture, user=current_user, req=req, result=result1, friends=friends)
