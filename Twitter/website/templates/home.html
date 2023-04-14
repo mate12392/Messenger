@@ -22,9 +22,13 @@
         height: 100;
     }
 
+    .asd {
+        height: 100%;
+    }
+
 </style>
 
-<div class="container-fluid">
+<div class="container-fluid asd">
 
 
     <div class="container-fluid ml-1" style="width:300px">
@@ -78,4 +82,10 @@
     </div>
 -->
 </div>
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
 {% endblock%}

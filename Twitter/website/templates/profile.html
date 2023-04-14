@@ -30,4 +30,10 @@ Profile picture : <img src="/static/images/{{pic}}.png" width="40px" height="40p
 </div>
 </div>
 
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
 {% endblock%}

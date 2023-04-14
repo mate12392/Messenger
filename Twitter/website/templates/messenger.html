@@ -163,14 +163,14 @@
         <div class="row mt-3">
             <div class="mr-3 bg2">
                 <img class="rounded-circle child" width="40px" height="40px" src="/static/images/{{rec_name}}.png" alt="anyad">
-                <p class="ml-3 mt-3 text-primary child">{{rec_Names}}</p>
+                <p class="ml-3 mt-3 child">{{rec_Names}}</p>
                 <a class="float-right mr-5 mt-3 fa-regular fa-magnifying-glass"></a>
             </div>
             
         </div>
-        <div  class="row rheight scroll">
+        <div  class="row rheight scroll" id="top">
             <div class="rheight w-100" id="here" hx-get="/t/{{reciever}}" hx-swap="innerHTML" hx-trigger="every 3s" hx-swap-oob="true">
-                {% for m in messages %}
+                <div onload="hello()">{% for m in messages %}
                     {% if m[2] == sender %}
                     <div class="right">
                         <li class="list-group-item border-0 child bg rounded-pill">{{ m[0] }}<br></li>
@@ -185,6 +185,7 @@
                     </div>
                     {% endif %}
                 {% endfor %}
+            </div>
             </div>
         </div>
         <div class="row mt-1">

@@ -27,3 +27,16 @@ function textAreaAdjust(element) {
     }
   }
 }
+
+function scroll(){
+  if (document.getElementById("top").scrollTop === 0) {
+    alert("Reached top")
+  }
+}
+
+function hello(){
+	alert('Hello world! in func hello');
+}
+$(function(){
+	$('div[onload]').trigger('onload');
+});

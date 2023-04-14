@@ -42,8 +42,6 @@ def messenger(usr_id):
         return render_template('404.html')
 
     num = User.query.count()
-
-    """if request.method == 'GET':"""
         
 
     if int(usr_id) != current_user.id and int(usr_id) <= num:
